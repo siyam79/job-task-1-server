@@ -82,10 +82,6 @@ async function run() {
 
 
 
-
-
-
-
     app.get("/updateJobTask/:id", async (req, res) => {
       const id = req.params.id;
       const query = {
@@ -95,25 +91,16 @@ async function run() {
       res.send(result)
     })
 
-    app.get("/alltasks", async (req, res) => {
-      const cursor = tasksCollection.find();
-      const result = await cursor.toArray()
-      res.send(result)
-    })
-
-    // app.get('/getAllTask', async (req, res) => {
-    //   console.log(req.query?.email);
-    //   let query = {}
-    //   if (req.query?.email) {
-    //     query = { email: req.query?.email }
-    //   }
-    //   const result = await tasksCollection.find(query).toArray();
+    // app.get("/alltasks", async (req, res) => {
+    //   const cursor = tasksCollection.find();
+    //   const result = await cursor.toArray()
     //   res.send(result)
     // })
 
+  
 
-    app.get('/getAllTask/:email', async (req, res) => {
-      // console.log(req.query.email);
+    app.get('/getAllTask', async (req, res) => {
+      console.log(req.query.email);
       let query = {}
       if (req.query?.email) {
         query = { email: req.query?.email }
