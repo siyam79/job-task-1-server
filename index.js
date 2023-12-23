@@ -1,13 +1,19 @@
 const express = require('express')
 require("dotenv").config();
-const app = express()
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const port = process.env.PORT || 5000
 const cors = require('cors')
-
+const app = express()
+const port = process.env.PORT || 5000
 app.use(express.json());
-app.use(cors())
+app.use(cors(
+  {
+      origin: [
+          "http://localhost:5173",
+      ],
+      credentials: true,
+  }
 
+))
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ono972m.mongodb.net/?retryWrites=true&w=majority`;
@@ -80,8 +86,6 @@ async function run() {
     })
 
 
-
-
     app.get("/updateJobTask/:id", async (req, res) => {
       const id = req.params.id;
       const query = {
@@ -111,38 +115,13 @@ async function run() {
 
 
 
-
-    // app.post("/users", async (req, res) => {
-    //   const user = req.body
-    //   const qurey = { email: user?.email }
-    //   const existinUser = await usersCollection.findOne(qurey)
-    //   if (existinUser) {
-    //     return res.send({ messege: " user alredy exist", insertedId: null })
-    //   }
-    //   const result = await usersCollection.insertOne(user)
-    //   res.send(result)
-    // })
-
     app.post('/users', async (req, res) => {
       const user = req.body;
       const result = await usersCollection.insertOne(user);
       res.send(result)
     })
 
-
-
-
-
-
-
-
-    // app.get("/getAllTask", async (req, res) => {
-    //   const cursor = tasksCollection.find();
-    //   const result = await cursor.toArray()
-    //   res.send(result)
-    // })
-
-
+  
     app.post('/createTask', async (req, res) => {
       const task = req.body;
       const result = await tasksCollection.insertOne(task);
@@ -151,13 +130,8 @@ async function run() {
 
 
 
-
-
-
-
-
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
